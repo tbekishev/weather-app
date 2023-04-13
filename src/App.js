@@ -1,6 +1,7 @@
 import React from "react";
 import snowBg from "./assets/snow.jpg";
 import hotBg from "./assets/sun.jpg";
+import Details from "./components/Details";
 
 function App() {
 
@@ -29,7 +30,7 @@ function App() {
               <h1>100 F</h1>
             </div>
           </div>
-
+          <Details />
         </div>
       </div>
     </div>

@@ -82,14 +82,13 @@
   align-items: center;
   justify-content: center;
 
+  > h3 {
+    font-size: 15px;
+    font-weight: 200;
+    text-transform: capitalize;
+  }
 }
 
-.icon>h3 {
-  font-size: 15px;
-  font-weight: 200;
-  text-transform: capitalize;
-}
-
-.temperature>h1 {
+.temperature > h1 {
   font-size: 60px;
 }
