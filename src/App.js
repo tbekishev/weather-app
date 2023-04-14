@@ -1,37 +1,57 @@
 import React, { useEffect, useState } from "react";
-import snowBg from "./assets/snow.jpg";
-import hotBg from "./assets/sun.jpg";
+import cloudBg from "./assets/clouds.jpg";
 import Details from "./components/Details";
-import { getWeatherData } from "./weatherApi";
+import { getWeatherData } from "./helpers/weatherApi";
+import { getBackgroundImage } from "./helpers/backgroundImages";
 
 function App() {
 
   const [weather, setWeather] = useState(null);
-  const [units, setUnits] = useState('metric');
+  const [units, setUnits] = useState('imperial');
+  const [zip, setZip] = useState('33607');
+  const [bg, setBg] = useState(cloudBg);
 
+  // Fetch weather data and background image on initial load and on change of units or zip code
   useEffect(() => {
-
-    const weatherData = async() => {
-      const data = await getWeatherData('75009', units);
+    async function weatherData() {
+      const data = await getWeatherData(zip, units);
       setWeather(data);
-    };
-
+      const bgImage = getBackgroundImage(data.description);
+      setBg(bgImage);
+    }
     weatherData();
-  }, []);
+  }, [units, zip]);
+
+  // Toggle between metric and imperial units
+  const toggleUnits = (e) => {
+    const button = e.currentTarget;
+    const currentUnit = button.innerText.slice(1);
+    const isCelcius = currentUnit === 'C';
+    button.innerText = isCelcius ? '°F' : '°C';
+    setUnits(isCelcius ? 'metric' : 'imperial');
+  };
+
+  // Handle form submission for zip code
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setZip(e.target.elements.zip.value);
+  }
 
   return (
-    <div className="App" style={{ backgroundImage: `url(${hotBg})`}}>
+    <div className="App" style={{ backgroundImage: `url(${bg})`}}>
       <div className="overlay">
         { weather && (
         <div className="container">
-          <div className="section section__inputs">
-            <input 
-              type="text" 
-              name="city"
-              placeholder="Enter zip code..."
-            />
-            <button>Search</button>
-          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="section section__inputs">
+              <input 
+                type="text" 
+                name="zip"
+                placeholder="Enter zip code..."
+              />
+              <button>Search</button>
+            </div>
+          </form>
           <div className="section section__temperature">
             <div className="icon">
               <h3>{`${weather.name}, ${weather.country}`}</h3>
@@ -44,6 +64,8 @@ function App() {
             <div className="temperature">
               <h1>{weather.temp.toFixed()} °{units === 'metric' ? 'C': 'F'}</h1>
             </div>
+            <button onClick={(e) => toggleUnits(e)}>°C</button>
+
           </div>
           <Details 
             weather={weather}

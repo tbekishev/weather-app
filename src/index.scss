@@ -43,7 +43,7 @@
   &__inputs, &__temperature {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     background-color: var(--section-overlay);
 
     > input {
@@ -61,7 +61,7 @@
     }
 
     > button {
-      padding: 10px 50px;
+      padding: 10px 40px;
       border: none;
       border-radius: 0.4rem;
       font-size: 20px;
@@ -91,4 +91,8 @@
 
 .temperature > h1 {
   font-size: 60px;
+}
+
+.section__inputs > input {
+  margin-right: 1rem;
 }
