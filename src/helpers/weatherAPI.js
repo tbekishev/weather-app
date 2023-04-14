@@ -1,7 +1,7 @@
 const getIconUrl = (iconId) => `https://openweathermap.org/img/wn/${iconId}@2x.png`;
 
 const getWeatherData = async (zip, units) => {
-  const URL = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${process.env.REACT_APP_OPENWEATHERMAP_KEY}&units=${units}`;
+  const URL = `https://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=${process.env.REACT_APP_OPENWEATHERMAP_KEY}&units=${units}`;
 
   const response = await fetch(URL);
   const data = await response.json();

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import cloudBg from "./assets/clouds.jpg";
 import Details from "./components/Details";
-import { getWeatherData } from "./helpers/weatherApi";
+import { getWeatherData } from "./helpers/weatherAPI";
 import { getBackgroundImage } from "./helpers/backgroundImages";
+import { getGeoData } from "./helpers/geoAPI";
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
   const [units, setUnits] = useState('imperial');
   const [zip, setZip] = useState('33607');
   const [bg, setBg] = useState(cloudBg);
+  const [state, setState] = useState(null);
 
   // Fetch weather data and background image on initial load and on change of units or zip code
   useEffect(() => {
@@ -18,6 +20,7 @@ function App() {
         const data = await getWeatherData(zip, units);
         setWeather(data);
         const bgImage = getBackgroundImage(data.description);
+        setState(await getGeoData(data.name));
         setBg(bgImage);
       } catch (error) {
         setWeather(null);
@@ -59,7 +62,7 @@ function App() {
           </form>
           <div className="section section__temperature">
             <div className="icon">
-              <h3>{`${weather.name}, ${weather.country} ${zip}`}</h3>
+              <h3>{`${weather.name}, ${state} ${zip}`}</h3>
               <img 
                 alt="weatherIcon" 
                 src={weather.iconUrl}
