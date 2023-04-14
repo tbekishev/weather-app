@@ -29,9 +29,16 @@
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-direction: column;
   padding: 1rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .section {
@@ -40,7 +47,7 @@
   border-radius: 0.4rem;
   color: white;
 
-  &__inputs, &__temperature {
+  &__inputs, &__temperature, &__error {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -95,4 +102,15 @@
 
 .section__inputs > input {
   margin-right: 1rem;
+}
+
+.section__error > p {
+  color: red;
+}
+
+.section__error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }

@@ -14,11 +14,16 @@ function App() {
   // Fetch weather data and background image on initial load and on change of units or zip code
   useEffect(() => {
     async function weatherData() {
-      const data = await getWeatherData(zip, units);
-      setWeather(data);
-      const bgImage = getBackgroundImage(data.description);
-      setBg(bgImage);
-    }
+      try {
+        const data = await getWeatherData(zip, units);
+        setWeather(data);
+        const bgImage = getBackgroundImage(data.description);
+        setBg(bgImage);
+      } catch (error) {
+        setWeather(null);
+        setBg(cloudBg);
+      }
+    }    
     weatherData();
   }, [units, zip]);
 
@@ -40,7 +45,7 @@ function App() {
   return (
     <div className="App" style={{ backgroundImage: `url(${bg})`}}>
       <div className="overlay">
-        { weather && (
+        { weather ? (
         <div className="container">
           <form onSubmit={handleSubmit}>
             <div className="section section__inputs">
@@ -54,7 +59,7 @@ function App() {
           </form>
           <div className="section section__temperature">
             <div className="icon">
-              <h3>{`${weather.name}, ${weather.country}`}</h3>
+              <h3>{`${weather.name}, ${weather.country} ${zip}`}</h3>
               <img 
                 alt="weatherIcon" 
                 src={weather.iconUrl}
@@ -71,6 +76,22 @@ function App() {
             weather={weather}
             units={units}
           />
+        </div>
+        ) : (
+        <div className="container">
+          <form onSubmit={handleSubmit}>
+            <div className="section section__inputs">
+              <input 
+                type="text" 
+                name="zip"
+                placeholder="Enter zip code..."
+              />
+              <button>Search</button>
+            </div>
+          </form>
+          <div className="section section__error">
+            <p>Invalid zip code. Please try again.</p>
+          </div>
         </div>
         )}
       </div>
