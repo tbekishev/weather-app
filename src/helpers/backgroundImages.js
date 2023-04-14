@@ -7,8 +7,6 @@ import rainBg from "../assets/rain.jpg";
 export function getBackgroundImage(description) {
   if (description.includes('haze') || description.includes('fog') || description.includes('mist')) {
     return hazeBg;
-  } else if (description.includes('cloud')) {
-    return cloudBg;
   } else if (description.includes('clear')) {
     return clearBg;
   } else if (description.includes('snow')) {
